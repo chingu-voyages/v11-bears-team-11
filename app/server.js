@@ -8,6 +8,7 @@ import mongoose from "mongoose";
 import bodyParser from "body-parser";
 import passport from "passport";
 import { config } from "dotenv";
+import socket from "socket.io";
 
 /**
  * import DotEnv nicely
@@ -59,6 +60,14 @@ if (process.env.NODE_ENV === "production") {
 /**
  * Initiallize the server
  */
-app.listen(port, () => {
+const server = app.listen(port, () => {
   console.log(`Server up and  running on port ${port} !`);
+});
+
+/**
+ * setup and config the socketio
+ */
+const io = socket(server);
+io.on("connection", socketCon => {
+  console.log("socketIO connection has been started");
 });
