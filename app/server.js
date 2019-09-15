@@ -10,6 +10,9 @@ import passport from "passport";
 import { config } from "dotenv";
 import socket from "socket.io";
 
+import passportConfig from "./config/passport";
+import userRoutes from "./routes/userRoutes";
+
 /**
  * import DotEnv nicely
  */
@@ -28,24 +31,28 @@ app.use(bodyParser.json());
  * DB Config
  */
 const db = process.env.DB_URL;
-// Connect to MongoDB
+// / Connect to MongoDB
 mongoose
   .connect(db, { useNewUrlParser: true })
-  .then(() => console.log("Mongodb successfully connected"))
+  .then(() =>
+    console.log(
+      "################################\n Mongodb successfully connected\n################################"
+    )
+  )
   .catch(err => console.log(err));
 
 /**
  * Passport config nicely
  */
-// passportConfig(passport)
+passportConfig(passport);
 /**
  * Routes
  */
-// app.use('/api/users/', users)
+app.use("/api/users/", userRoutes);
 // add post route
 // app.use('/api/', posts)
 // serve our images
-app.use("/api/uploads", express.static("uploads"));
+// app.use("/api/uploads", express.static("uploads"));
 /**
  * serve static assets in production
  */
@@ -67,7 +74,8 @@ const server = app.listen(port, () => {
 /**
  * setup and config the socketio
  */
-const io = socket(server);
-io.on("connection", socketCon => {
-  console.log("socketIO connection has been started");
-});
+// const io = socket(server);
+// // emmit our 1st sockit connection
+// io.on("connection", socketConn => {
+//   console.log("socketIO connection has been started", socketConn.id);
+// });
